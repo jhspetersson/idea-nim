@@ -1,0 +1,77 @@
+{
+  parserClass="nim.parser.NimParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Nim"
+  psiImplClassSuffix="Impl"
+  psiPackage="nim.psi"
+  psiImplPackage="nim.psi.impl"
+
+  elementTypeHolderClass="nim.psi.NimTypes"
+  elementTypeClass="nim.psi.NimElementType"
+  tokenTypeClass="nim.psi.NimTokenType"
+
+  tokens = [
+    T_IF='if'
+    T_WHEN='when'
+    T_WHILE='while'
+    T_CASE='case'
+    T_FOR='for'
+    //T_VAR='var'
+    T_LET='let'
+    T_CONST='const'
+    T_BLOCK='block'
+    T_TRY='try'
+    T_EXCEPT='except'
+    T_FINALLY='finally'
+    T_INCLUDE='include'
+    T_MIXIN='mixin'
+    T_DISCARD='discard'
+
+    //OP_ASSIGN='='
+    OP_PLUS='+'
+    OP_MINUS='-'
+    OP_MULTIPLY='*'
+    OP_DIVIDE='/'
+    OP_EQ='=='
+    OP_NE='!='
+    OP_LT='<'
+    OP_LE='<='
+    OP_GT='>'
+    OP_GE='>='
+  ]
+}
+
+module ::= import_section ? ( var_init_block | let_init_block | const_init_block | proc | stmt | echo | COMMENT ) *
+
+import_section ::= T_IMPORT ident_list
+
+var_init_block ::= T_VAR var_init+
+var_init ::= ident_init
+
+let_init_block ::= T_LET let_init+
+let_init ::= ident_init
+
+const_init_block ::= T_CONST const_init+
+const_init ::= ident_init
+
+ident_init ::= ident_list ( ( ( COLON type )? OP_ASSIGN expr ) | COLON type )
+ident_list ::= IDENTIFIER ( COMMA IDENTIFIER ) *
+
+proc ::= T_PROC IDENTIFIER params_list COLON type OP_ASSIGN ( var_init_block | let_init_block | stmt | echo | COMMENT ) *
+params_list ::= OPEN_BRACKET ( IDENTIFIER COLON type ( COMMA IDENTIFIER COLON type ) * )? CLOSE_BRACKET
+
+stmt ::= IDENTIFIER OP_ASSIGN expr
+expr ::= operator_expr | expr_
+operator_expr ::= expr_ operator expr_ ( operator expr_ ) *
+expr_ ::= ident_expr | literal_expr | paren_expr
+paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
+ident_expr ::= IDENTIFIER
+literal_expr ::= literal
+literal ::= STRING | NUMBER
+operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE
+
+type ::= 'string' | 'bool' | 'int'
+
+echo ::= KEYWORD expr

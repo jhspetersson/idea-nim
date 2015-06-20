@@ -1,0 +1,31 @@
+<idea-plugin version="2">
+  <id>nim.lang</id>
+  <name>Nim language support</name>
+  <version>0.0.1</version>
+
+  <description><![CDATA[
+      <a href="http://nim-lang.org/">Nim</a> language support.
+    ]]></description>
+
+  <idea-version since-build="131"/>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileTypeFactory implementation="nim.lang.NimFileTypeFactory"/>
+    <lang.parserDefinition language="Nim" implementationClass="nim.NimParserDefinition"/>
+    <lang.syntaxHighlighterFactory key="Nim" implementationClass="nim.NimSyntaxHighlighterFactory"/>
+    <colorSettingsPage implementation="nim.NimColorSettingsPage"/>
+  </extensions>
+
+  <application-components>
+
+  </application-components>
+
+  <project-components>
+
+  </project-components>
+
+  <actions>
+
+  </actions>
+
+</idea-plugin>
