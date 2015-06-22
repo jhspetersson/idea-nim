@@ -30,10 +30,12 @@ T_IF="if"
 T_ELSE="else"
 T_FOR="for"
 T_IN="in"
+T_DISCARD="discard"
 STRING=\"([^\"\\]|\\\\|\\\"|\\n)*\"
 CHAR='.'
 NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
+NIL="nil"
 TEMPLATE=\{\.[a-zA-Z][a-zA-Z_0-9]*\.\}
 OP_ASSIGN="="
 OP_MOD="mod"
@@ -63,11 +65,13 @@ CLOSE_BRACKET=")"
     {T_ELSE}              { return NimTypes.T_ELSE; }
     {T_FOR}               { return NimTypes.T_FOR; }
     {T_IN}                { return NimTypes.T_IN; }
+    {T_DISCARD}           { return NimTypes.T_DISCARD; }
     {STRING}              { return NimTypes.STRING; }
     {CHAR}                { return NimTypes.CHAR; }
     {NUMBER}              { return NimTypes.NUMBER; }
     {T_RANGE}             { return NimTypes.T_RANGE; }
     {OP_MOD}              { return NimTypes.OP_MOD; }
+    {NIL}                 { return NimTypes.NIL; }
     {IDENTIFIER}          { return NimTypes.IDENTIFIER; }
     {OP_ASSIGN}           { return NimTypes.OP_ASSIGN; }
     {COLON}               { return NimTypes.COLON; }

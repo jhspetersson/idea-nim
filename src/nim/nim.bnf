@@ -65,7 +65,7 @@ params_list ::= OPEN_BRACKET ( ident_list COLON type ( COMMA ident_list COLON ty
 stmt ::= IDENTIFIER OP_ASSIGN expr
 expr ::= operator_expr | expr_
 operator_expr ::= expr_ operator expr_ ( operator expr_ ) *
-expr_ ::= invokation | ident_expr | literal_expr | paren_expr
+expr_ ::= invokation | NIL | ident_expr | literal_expr | paren_expr
 invokation ::= IDENTIFIER OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 ident_expr ::= IDENTIFIER
@@ -88,7 +88,8 @@ char_range ::= CHAR T_RANGE CHAR
 
 nonempty_block ::= block_ +
 block ::= block_ *
-block_ ::= if_block | for_block | stmt | invokation | echo
+block_ ::= if_block | for_block | stmt | invokation | discard_expr | echo
+discard_expr ::= T_DISCARD expr
 
 echo ::= KEYWORD expr_list
 expr_list ::= expr ( COMMA expr ) *
