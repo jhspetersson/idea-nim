@@ -36,7 +36,10 @@ public class NimSyntaxHighlighter extends SyntaxHighlighterBase {
             tokenType.equals(NimTypes.T_LET) ||
             tokenType.equals(NimTypes.T_CONST) ||
             tokenType.equals(NimTypes.T_IMPORT) ||
-            tokenType.equals(NimTypes.T_PROC)
+            tokenType.equals(NimTypes.T_PROC) ||
+            tokenType.equals(NimTypes.T_IF) ||
+            tokenType.equals(NimTypes.T_ELIF) ||
+            tokenType.equals(NimTypes.T_ELSE)
            ) {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(NimTypes.COMMENT)) {

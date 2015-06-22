@@ -43,7 +43,7 @@
   ]
 }
 
-module ::= import_section ? ( var_init_block | let_init_block | const_init_block | proc | stmt | echo | COMMENT ) *
+module ::= import_section ? ( var_init_block | let_init_block | const_init_block | proc | nonempty_block | TEMPLATE | COMMENT ) *
 
 import_section ::= T_IMPORT ident_list
 
@@ -59,13 +59,14 @@ const_init ::= ident_init
 ident_init ::= ident_list ( ( ( COLON type )? OP_ASSIGN expr ) | COLON type )
 ident_list ::= IDENTIFIER ( COMMA IDENTIFIER ) *
 
-proc ::= T_PROC IDENTIFIER params_list COLON type OP_ASSIGN ( var_init_block | let_init_block | stmt | echo | COMMENT ) *
-params_list ::= OPEN_BRACKET ( IDENTIFIER COLON type ( COMMA IDENTIFIER COLON type ) * )? CLOSE_BRACKET
+proc ::= T_PROC IDENTIFIER '*' ? params_list ( COLON type ) ? OP_ASSIGN ( var_init_block | let_init_block | nonempty_block | COMMENT ) *
+params_list ::= OPEN_BRACKET ( ident_list COLON type ( COMMA ident_list COLON type ) * )? CLOSE_BRACKET
 
 stmt ::= IDENTIFIER OP_ASSIGN expr
 expr ::= operator_expr | expr_
 operator_expr ::= expr_ operator expr_ ( operator expr_ ) *
-expr_ ::= ident_expr | literal_expr | paren_expr
+expr_ ::= invokation | ident_expr | literal_expr | paren_expr
+invokation ::= IDENTIFIER OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 ident_expr ::= IDENTIFIER
 literal_expr ::= literal
@@ -74,4 +75,14 @@ operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE
 
 type ::= 'string' | 'bool' | 'int'
 
-echo ::= KEYWORD expr
+if_block ::= T_IF bool_expr COLON block ( elif_block ) * else_block ?
+elif_block ::= T_ELIF bool_expr COLON block
+else_block ::= T_ELSE block
+bool_expr ::= expr_ boolean_operator expr_
+boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE
+
+nonempty_block ::= ( if_block | stmt | invokation | echo ) +
+block ::= ( if_block | stmt | invokation | echo ) *
+
+echo ::= KEYWORD expr_list
+expr_list ::= expr ( COMMA expr ) *
