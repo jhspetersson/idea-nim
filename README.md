@@ -1,5 +1,5 @@
 # idea-nim
-Nim language support for IntelliJ IDEA by JetBrains
+<a href="http://nim-lang.org/">Nim language</a> support for <a href="https://www.jetbrains.com/idea">IntelliJ IDEA</a> by JetBrains
 
 Not very useful for now. Adds very basic syntax highlighting to .nim files in the editor.
 
