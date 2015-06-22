@@ -17,7 +17,7 @@
     T_WHEN='when'
     T_WHILE='while'
     T_CASE='case'
-    T_FOR='for'
+//    T_FOR='for'
     //T_VAR='var'
     T_LET='let'
     T_CONST='const'
@@ -70,19 +70,25 @@ invokation ::= IDENTIFIER OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 ident_expr ::= IDENTIFIER
 literal_expr ::= literal
-literal ::= STRING | NUMBER
-operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE
+literal ::= STRING | CHAR | NUMBER
+operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD
 
 type ::= 'string' | 'bool' | 'int'
 
 if_block ::= T_IF bool_expr COLON block ( elif_block ) * else_block ?
 elif_block ::= T_ELIF bool_expr COLON block
-else_block ::= T_ELSE block
-bool_expr ::= expr_ boolean_operator expr_
+else_block ::= T_ELSE COLON block
+bool_expr ::= expr boolean_operator expr
 boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE
 
-nonempty_block ::= ( if_block | stmt | invokation | echo ) +
-block ::= ( if_block | stmt | invokation | echo ) *
+for_block ::= T_FOR IDENTIFIER T_IN range COLON
+range ::= int_range | char_range
+int_range ::= NUMBER T_RANGE NUMBER
+char_range ::= CHAR T_RANGE CHAR
+
+nonempty_block ::= block_ +
+block ::= block_ *
+block_ ::= if_block | for_block | stmt | invokation | echo
 
 echo ::= KEYWORD expr_list
 expr_list ::= expr ( COMMA expr ) *

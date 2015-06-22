@@ -28,13 +28,18 @@ T_IMPORT="import"
 T_ELIF="elif"
 T_IF="if"
 T_ELSE="else"
+T_FOR="for"
+T_IN="in"
 STRING=\"([^\"\\]|\\\\|\\\"|\\n)*\"
+CHAR='.'
 NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 TEMPLATE=\{\.[a-zA-Z][a-zA-Z_0-9]*\.\}
 OP_ASSIGN="="
+OP_MOD="mod"
 COLON=":"
 COMMA=","
+T_RANGE=".."
 OPEN_BRACKET="("
 CLOSE_BRACKET=")"
 
@@ -56,8 +61,13 @@ CLOSE_BRACKET=")"
     {T_ELIF}              { return NimTypes.T_ELIF; }
     {T_IF}                { return NimTypes.T_IF; }
     {T_ELSE}              { return NimTypes.T_ELSE; }
+    {T_FOR}               { return NimTypes.T_FOR; }
+    {T_IN}                { return NimTypes.T_IN; }
     {STRING}              { return NimTypes.STRING; }
+    {CHAR}                { return NimTypes.CHAR; }
     {NUMBER}              { return NimTypes.NUMBER; }
+    {T_RANGE}             { return NimTypes.T_RANGE; }
+    {OP_MOD}              { return NimTypes.OP_MOD; }
     {IDENTIFIER}          { return NimTypes.IDENTIFIER; }
     {OP_ASSIGN}           { return NimTypes.OP_ASSIGN; }
     {COLON}               { return NimTypes.COLON; }
@@ -79,9 +89,6 @@ CLOSE_BRACKET=")"
     "when"                { return T_WHEN; }
     "while"               { return T_WHILE; }
     "case"                { return T_CASE; }
-    "for"                 { return T_FOR; }
-    "let"                 { return T_LET; }
-    "const"               { return T_CONST; }
     "block"               { return T_BLOCK; }
     "try"                 { return T_TRY; }
     "except"              { return T_EXCEPT; }
