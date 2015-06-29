@@ -14,10 +14,12 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class NimSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey KEYWORD = createTextAttributesKey("NIM_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
+    public static final TextAttributesKey OPIDENT = createTextAttributesKey("NIM_OPIDENT", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
     public static final TextAttributesKey STRING = createTextAttributesKey("NIM_STRING", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey COMMENT = createTextAttributesKey("NIM_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
     private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
+    private static final TextAttributesKey[] OPIDENT_KEYS = new TextAttributesKey[]{OPIDENT};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
@@ -43,9 +45,12 @@ public class NimSyntaxHighlighter extends SyntaxHighlighterBase {
             tokenType.equals(NimTypes.T_FOR) ||
             tokenType.equals(NimTypes.T_IN) ||
             tokenType.equals(NimTypes.NIL) ||
-            tokenType.equals(NimTypes.T_DISCARD)
+            tokenType.equals(NimTypes.T_DISCARD) ||
+            tokenType.equals(NimTypes.T_RETURN)
            ) {
             return KEYWORD_KEYS;
+        } else if (tokenType.equals(NimTypes.OPERATOR_IDENTIFIER)) {
+            return OPIDENT_KEYS;
         } else if (tokenType.equals(NimTypes.COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(NimTypes.STRING)) {

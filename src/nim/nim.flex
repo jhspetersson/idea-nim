@@ -31,10 +31,12 @@ T_ELSE="else"
 T_FOR="for"
 T_IN="in"
 T_DISCARD="discard"
+T_RETURN="return"
 STRING=\"([^\"\\]|\\\\|\\\"|\\n)*\"
 CHAR='.'
 NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
+OPERATOR_IDENTIFIER=`[\=\+\-\*\/\<\>\@\$\~\&\%\|\!\?\^\.\:\\]+`
 NIL="nil"
 TEMPLATE=\{\.[a-zA-Z][a-zA-Z_0-9]*\.\}
 OP_ASSIGN="="
@@ -72,22 +74,24 @@ CLOSE_BRACKET=")"
     {T_RANGE}             { return NimTypes.T_RANGE; }
     {OP_MOD}              { return NimTypes.OP_MOD; }
     {NIL}                 { return NimTypes.NIL; }
+    {T_RETURN}            { return NimTypes.T_RETURN; }
+    {OPERATOR_IDENTIFIER} { return NimTypes.OPERATOR_IDENTIFIER; }
     {IDENTIFIER}          { return NimTypes.IDENTIFIER; }
     {OP_ASSIGN}           { return NimTypes.OP_ASSIGN; }
     {COLON}               { return NimTypes.COLON; }
     {COMMA}               { return NimTypes.COMMA; }
     {OPEN_BRACKET}        { return NimTypes.OPEN_BRACKET; }
     {CLOSE_BRACKET}       { return NimTypes.CLOSE_BRACKET; }
-    "+"                   { return OP_PLUS; }
-    "-"                   { return OP_MINUS; }
-    "*"                   { return OP_MULTIPLY; }
-    "/"                   { return OP_DIVIDE; }
     "=="                  { return OP_EQ; }
     "!="                  { return OP_NE; }
     "<"                   { return OP_LT; }
     "<="                  { return OP_LE; }
     ">"                   { return OP_GT; }
     ">="                  { return OP_GE; }
+    "+"                   { return OP_PLUS; }
+    "-"                   { return OP_MINUS; }
+    "*"                   { return OP_MULTIPLY; }
+    "/"                   { return OP_DIVIDE; }
 
 
     "when"                { return T_WHEN; }
@@ -99,7 +103,6 @@ CLOSE_BRACKET=")"
     "finally"             { return T_FINALLY; }
     "include"             { return T_INCLUDE; }
     "mixin"               { return T_MIXIN; }
-    "discard"             { return T_DISCARD; }
     .                     { return TokenType.WHITE_SPACE; }
 }
 

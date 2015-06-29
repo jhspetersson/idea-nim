@@ -30,16 +30,16 @@
     T_DISCARD='discard'
 
     //OP_ASSIGN='='
-    OP_PLUS='+'
-    OP_MINUS='-'
-    OP_MULTIPLY='*'
-    OP_DIVIDE='/'
-    OP_EQ='=='
-    OP_NE='!='
-    OP_LT='<'
-    OP_LE='<='
-    OP_GT='>'
-    OP_GE='>='
+//    OP_PLUS='+'
+//    OP_MINUS='-'
+//    OP_MULTIPLY='*'
+//    OP_DIVIDE='/'
+//    OP_EQ='=='
+//    OP_NE='!='
+//    OP_LT='<'
+//    OP_LE='<='
+//    OP_GT='>'
+//    OP_GE='>='
   ]
 }
 
@@ -59,11 +59,12 @@ const_init ::= ident_init
 ident_init ::= ident_list ( ( ( COLON type )? OP_ASSIGN expr ) | COLON type )
 ident_list ::= IDENTIFIER ( COMMA IDENTIFIER ) *
 
-proc ::= T_PROC IDENTIFIER '*' ? params_list ( COLON type ) ? OP_ASSIGN ( var_init_block | let_init_block | nonempty_block | COMMENT ) *
+proc ::= T_PROC ( ( IDENTIFIER '*' ? ) | OPERATOR_IDENTIFIER ) params_list ( COLON type ) ? OP_ASSIGN ( var_init_block | let_init_block | nonempty_block | COMMENT ) * return_ ?
 params_list ::= OPEN_BRACKET ( ident_list COLON type ( COMMA ident_list COLON type ) * )? CLOSE_BRACKET
+return_ ::= T_RETURN expr ?
 
 stmt ::= IDENTIFIER OP_ASSIGN expr
-expr ::= operator_expr | expr_
+expr ::= operator_expr | bool_expr | expr_
 operator_expr ::= expr_ operator expr_ ( operator expr_ ) *
 expr_ ::= invokation | NIL | ident_expr | literal_expr | paren_expr
 invokation ::= IDENTIFIER OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
@@ -78,7 +79,7 @@ type ::= 'string' | 'bool' | 'int'
 if_block ::= T_IF bool_expr COLON block ( elif_block ) * else_block ?
 elif_block ::= T_ELIF bool_expr COLON block
 else_block ::= T_ELSE COLON block
-bool_expr ::= expr boolean_operator expr
+bool_expr ::= ( operator_expr | expr_ ) boolean_operator ( expr_ | operator_expr )
 boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE
 
 for_block ::= T_FOR IDENTIFIER T_IN range COLON
