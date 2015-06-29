@@ -72,15 +72,15 @@ paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 ident_expr ::= IDENTIFIER
 literal_expr ::= literal
 literal ::= STRING | CHAR | NUMBER
-operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD
+operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | OP_AND | OP_XOR | OP_OR | OP_AND_FULL | OP_XOR_FULL | OP_OR_FULL
 
-type ::= 'string' | 'bool' | 'int'
+type ::= 'string' | 'bool' | 'int' | IDENTIFIER
 
 if_block ::= T_IF bool_expr COLON block ( elif_block ) * else_block ?
 elif_block ::= T_ELIF bool_expr COLON block
 else_block ::= T_ELSE COLON block
 bool_expr ::= ( operator_expr | expr_ ) boolean_operator ( expr_ | operator_expr )
-boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE
+boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE | OP_LOGICAL_OR | OP_LOGICAL_AND
 
 for_block ::= T_FOR IDENTIFIER T_IN range COLON
 range ::= int_range | char_range

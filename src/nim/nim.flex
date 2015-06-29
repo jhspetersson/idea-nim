@@ -72,7 +72,15 @@ CLOSE_BRACKET=")"
     {CHAR}                { return NimTypes.CHAR; }
     {NUMBER}              { return NimTypes.NUMBER; }
     {T_RANGE}             { return NimTypes.T_RANGE; }
+    "&&"                  { return NimTypes.OP_LOGICAL_AND; }
+    "||"                  { return NimTypes.OP_LOGICAL_OR; }
     {OP_MOD}              { return NimTypes.OP_MOD; }
+    "&"                   { return NimTypes.OP_AND; }
+    "and"                 { return NimTypes.OP_AND_FULL; }
+    "|"                   { return NimTypes.OP_OR; }
+    "or"                  { return NimTypes.OP_OR_FULL; }
+    "^"                   { return NimTypes.OP_XOR; }
+    "xor"                 { return NimTypes.OP_XOR_FULL; }
     {NIL}                 { return NimTypes.NIL; }
     {T_RETURN}            { return NimTypes.T_RETURN; }
     {OPERATOR_IDENTIFIER} { return NimTypes.OPERATOR_IDENTIFIER; }
