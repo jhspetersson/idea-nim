@@ -44,7 +44,14 @@ public class NimSyntaxHighlighter extends SyntaxHighlighterBase {
             tokenType.equals(NimTypes.T_ELSE) ||
             tokenType.equals(NimTypes.T_FOR) ||
             tokenType.equals(NimTypes.T_IN) ||
+            tokenType.equals(NimTypes.T_WHILE) ||
+            tokenType.equals(NimTypes.T_CASE) ||
+            tokenType.equals(NimTypes.T_OF) ||
+            tokenType.equals(NimTypes.T_BREAK) ||
             tokenType.equals(NimTypes.NIL) ||
+            tokenType.equals(NimTypes.T_TRUE) ||
+            tokenType.equals(NimTypes.T_FALSE) ||
+            tokenType.equals(NimTypes.T_BLOCK) ||
             tokenType.equals(NimTypes.T_DISCARD) ||
             tokenType.equals(NimTypes.T_RETURN)
            ) {

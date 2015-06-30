@@ -30,6 +30,8 @@ T_IF="if"
 T_ELSE="else"
 T_FOR="for"
 T_IN="in"
+T_WHILE="while"
+T_BLOCK="block"
 T_DISCARD="discard"
 T_RETURN="return"
 STRING=\"([^\"\\]|\\\\|\\\"|\\n)*\"
@@ -44,6 +46,7 @@ OP_MOD="mod"
 COLON=":"
 COMMA=","
 T_RANGE=".."
+T_DOT="."
 OPEN_BRACKET="("
 CLOSE_BRACKET=")"
 
@@ -67,11 +70,19 @@ CLOSE_BRACKET=")"
     {T_ELSE}              { return NimTypes.T_ELSE; }
     {T_FOR}               { return NimTypes.T_FOR; }
     {T_IN}                { return NimTypes.T_IN; }
+    {T_WHILE}             { return NimTypes.T_WHILE; }
+    "true"                { return NimTypes.T_TRUE; }
+    "false"               { return NimTypes.T_FALSE; }
+    "case"                { return NimTypes.T_CASE; }
+    "of"                  { return NimTypes.T_OF; }
+    "break"               { return NimTypes.T_BREAK; }
+    {T_BLOCK}             { return NimTypes.T_BLOCK; }
     {T_DISCARD}           { return NimTypes.T_DISCARD; }
     {STRING}              { return NimTypes.STRING; }
     {CHAR}                { return NimTypes.CHAR; }
     {NUMBER}              { return NimTypes.NUMBER; }
     {T_RANGE}             { return NimTypes.T_RANGE; }
+    {T_DOT}               { return NimTypes.T_DOT; }
     "&&"                  { return NimTypes.OP_LOGICAL_AND; }
     "||"                  { return NimTypes.OP_LOGICAL_OR; }
     {OP_MOD}              { return NimTypes.OP_MOD; }
@@ -103,9 +114,6 @@ CLOSE_BRACKET=")"
 
 
     "when"                { return T_WHEN; }
-    "while"               { return T_WHILE; }
-    "case"                { return T_CASE; }
-    "block"               { return T_BLOCK; }
     "try"                 { return T_TRY; }
     "except"              { return T_EXCEPT; }
     "finally"             { return T_FINALLY; }

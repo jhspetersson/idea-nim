@@ -63,13 +63,13 @@ proc ::= T_PROC ( ( IDENTIFIER '*' ? ) | OPERATOR_IDENTIFIER ) params_list ( COL
 params_list ::= OPEN_BRACKET ( ident_list COLON type ( COMMA ident_list COLON type ) * )? CLOSE_BRACKET
 return_ ::= T_RETURN expr ?
 
-stmt ::= IDENTIFIER OP_ASSIGN expr
+stmt ::= ident_or_field OP_ASSIGN expr
 expr ::= operator_expr | bool_expr | expr_
 operator_expr ::= expr_ operator expr_ ( operator expr_ ) *
-expr_ ::= invokation | NIL | ident_expr | literal_expr | paren_expr
-invokation ::= IDENTIFIER OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
+expr_ ::= invokation | NIL | ident_expr | literal_expr | paren_expr | bool_literal
+invokation ::= ident_or_field OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
-ident_expr ::= IDENTIFIER
+ident_expr ::= ident_or_field
 literal_expr ::= literal
 literal ::= STRING | CHAR | NUMBER
 operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | OP_AND | OP_XOR | OP_OR | OP_AND_FULL | OP_XOR_FULL | OP_OR_FULL
@@ -79,18 +79,29 @@ type ::= 'string' | 'bool' | 'int' | IDENTIFIER
 if_block ::= T_IF bool_expr COLON block ( elif_block ) * else_block ?
 elif_block ::= T_ELIF bool_expr COLON block
 else_block ::= T_ELSE COLON block
-bool_expr ::= ( operator_expr | expr_ ) boolean_operator ( expr_ | operator_expr )
+bool_expr ::= ( ( operator_expr | expr_ ) boolean_operator ( expr_ | operator_expr ) ( boolean_operator expr_ ) * ) | bool_literal
 boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE | OP_LOGICAL_OR | OP_LOGICAL_AND
 
-for_block ::= T_FOR IDENTIFIER T_IN range COLON
+for_block ::= T_FOR ident_or_field T_IN range COLON
 range ::= int_range | char_range
 int_range ::= NUMBER T_RANGE NUMBER
 char_range ::= CHAR T_RANGE CHAR
 
+while_block ::= T_WHILE bool_expr COLON
+bool_literal ::= T_TRUE | T_FALSE
+
+case_block ::= T_CASE ident_or_field of_block + else_block ?
+of_block ::= T_OF of_value_list COLON
+of_value_list ::= of_value ( COMMA of_value ) *
+of_value ::= ident_or_field | range | literal
+
 nonempty_block ::= block_ +
 block ::= block_ *
-block_ ::= if_block | for_block | stmt | invokation | discard_expr | echo
+block_ ::= if_block | for_block | while_block | case_block | block_expr | break_expr | stmt | invokation | discard_expr | echo
+block_expr ::= T_BLOCK IDENTIFIER COLON
+break_expr ::= T_BREAK IDENTIFIER ?
 discard_expr ::= T_DISCARD expr
 
 echo ::= KEYWORD expr_list
 expr_list ::= expr ( COMMA expr ) *
+ident_or_field ::= IDENTIFIER ( T_DOT IDENTIFIER ) ?
