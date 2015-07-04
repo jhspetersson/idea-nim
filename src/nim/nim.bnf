@@ -63,14 +63,15 @@ proc ::= T_PROC ( ( IDENTIFIER '*' ? ) | OPERATOR_IDENTIFIER ) params_list ( COL
 params_list ::= OPEN_BRACKET ( ident_list COLON type ( COMMA ident_list COLON type ) * )? CLOSE_BRACKET
 return_ ::= T_RETURN expr ?
 
-stmt ::= invokation | ( ident_or_field OP_ASSIGN expr )
+stmt ::= ( ident_or_field OP_ASSIGN expr ) | invokation
 
 expr ::= operator ? expr_ ( operator expr_ ) *
 expr_ ::= invokation | NIL | paren_expr | ident_expr | literal_expr
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 operator ::= arithmetic_operator | boolean_operator | CUSTOM_OPERATOR
 arithmetic_operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | OP_AND | OP_XOR | OP_OR | OP_STRINGIFY
-invokation ::= ident_or_field OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
+invokation ::= ( ident_or_field | KEYWORD ) OPEN_BRACKET ? expr ? ( COMMA expr ) * CLOSE_BRACKET ?
+invokation_with_brackets ::= ident_or_field OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 literal_expr ::= literal
 literal ::= STRING | CHAR | NUMBER | bool_literal
 bool_literal ::= T_TRUE | T_FALSE
@@ -79,7 +80,9 @@ boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE | OP_AND_FULL
 
 ident_expr ::= ident_or_field
 
-type ::= 'string' | 'bool' | 'int' | IDENTIFIER
+type ::= seq | type_
+seq ::= T_SEQ OPEN_SBRACKET type_ CLOSE_SBRACKET
+type_ ::= 'string' | 'bool' | 'int' | IDENTIFIER
 
 if_block ::= T_IF expr COLON block ( elif_block ) * else_block ?
 elif_block ::= T_ELIF expr COLON block
@@ -100,11 +103,8 @@ of_value ::= ident_or_field | range | literal
 nonempty_block ::= block_ +
 block ::= block_ *
 block_ ::= if_block | for_block | while_block | case_block | block_expr | break_expr | stmt | var_init_block
-| invokation | discard_expr | echo
+| invokation | discard_expr
 block_expr ::= T_BLOCK IDENTIFIER COLON
 break_expr ::= T_BREAK IDENTIFIER ?
 discard_expr ::= T_DISCARD expr
-
-echo ::= KEYWORD expr_list
-expr_list ::= expr ( COMMA expr ) *
-ident_or_field ::= IDENTIFIER ( T_DOT IDENTIFIER ) ?
+ident_or_field ::= IDENTIFIER ( T_DOT ( IDENTIFIER | invokation_with_brackets ) ) *

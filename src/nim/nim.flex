@@ -23,6 +23,7 @@ KEYWORD="echo"
 T_VAR="var"
 T_LET="let"
 T_CONST="const"
+T_SEQ="seq"
 T_PROC="proc"
 T_IMPORT="import"
 T_ELIF="elif"
@@ -34,7 +35,7 @@ T_WHILE="while"
 T_BLOCK="block"
 T_DISCARD="discard"
 T_RETURN="return"
-STRING=\"([^\"\\]|\\\\|\\\"|\\n)*\"
+STRING=\"([^\"\\]|\\\\|\\\"|\\n|\\t)*\"
 CHAR='.'
 NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
@@ -50,6 +51,8 @@ T_RANGE=".."
 T_DOT="."
 OPEN_BRACKET="("
 CLOSE_BRACKET=")"
+OPEN_SBRACKET="["
+CLOSE_SBRACKET="]"
 
 %state YYINITIAL
 
@@ -65,6 +68,7 @@ CLOSE_BRACKET=")"
     {T_VAR}               { return NimTypes.T_VAR; }
     {T_LET}               { return NimTypes.T_LET; }
     {T_CONST}             { return NimTypes.T_CONST; }
+    {T_SEQ}               { return NimTypes.T_SEQ; }
     {T_PROC}              { return NimTypes.T_PROC; }
     {T_ELIF}              { return NimTypes.T_ELIF; }
     {T_IF}                { return NimTypes.T_IF; }
@@ -102,6 +106,8 @@ CLOSE_BRACKET=")"
     {COMMA}               { return NimTypes.COMMA; }
     {OPEN_BRACKET}        { return NimTypes.OPEN_BRACKET; }
     {CLOSE_BRACKET}       { return NimTypes.CLOSE_BRACKET; }
+    {OPEN_SBRACKET}       { return NimTypes.OPEN_SBRACKET; }
+    {CLOSE_SBRACKET}      { return NimTypes.CLOSE_SBRACKET; }
     "=="                  { return OP_EQ; }
     "!="                  { return OP_NE; }
     "<"                   { return OP_LT; }
