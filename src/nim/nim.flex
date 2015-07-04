@@ -39,6 +39,7 @@ CHAR='.'
 NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 OPERATOR_IDENTIFIER=`[\=\+\-\*\/\<\>\@\$\~\&\%\|\!\?\^\.\:\\]+`
+CUSTOM_OPERATOR=[\=\+\-\*\/\<\>\@\$\~\&\%\|\!\?\^\.\:\\]+
 NIL="nil"
 TEMPLATE=\{\.[a-zA-Z][a-zA-Z_0-9]*\.\}
 OP_ASSIGN="="
@@ -111,7 +112,8 @@ CLOSE_BRACKET=")"
     "-"                   { return OP_MINUS; }
     "*"                   { return OP_MULTIPLY; }
     "/"                   { return OP_DIVIDE; }
-
+    "$"                   { return NimTypes.OP_STRINGIFY; }
+    {CUSTOM_OPERATOR}     { return NimTypes.CUSTOM_OPERATOR; }
 
     "when"                { return T_WHEN; }
     "try"                 { return T_TRY; }
