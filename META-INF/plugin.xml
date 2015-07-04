@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>nim.lang</id>
   <name>Nim language support</name>
-  <version>0.0.0.4</version>
+  <version>0.0.0.5</version>
   <vendor url="https://github.com/jhspetersson/idea-nim" email="jhspetersson@gmail.com">jhspetersson</vendor>
 
   <description><![CDATA[
