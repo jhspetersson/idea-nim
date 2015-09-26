@@ -41,6 +41,7 @@ NUMBER=[0-9]+(\.[0-9]+)?
 IDENTIFIER=[a-zA-Z][a-zA-Z_0-9]*
 OPERATOR_IDENTIFIER=`[\=\+\-\*\/\<\>\@\$\~\&\%\|\!\?\^\.\:\\]+`
 CUSTOM_OPERATOR=[\=\+\-\*\/\<\>\@\$\~\&\%\|\!\?\^\.\:\\]+
+T_AT="@"
 NIL="nil"
 TEMPLATE=\{\.[a-zA-Z][a-zA-Z_0-9]*\.\}
 OP_ASSIGN="="
@@ -76,6 +77,7 @@ CLOSE_SBRACKET="]"
     {T_FOR}               { return NimTypes.T_FOR; }
     {T_IN}                { return NimTypes.T_IN; }
     {T_WHILE}             { return NimTypes.T_WHILE; }
+    {T_AT}                { return NimTypes.T_AT; }
     "true"                { return NimTypes.T_TRUE; }
     "false"               { return NimTypes.T_FALSE; }
     "case"                { return NimTypes.T_CASE; }

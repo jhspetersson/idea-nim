@@ -73,7 +73,10 @@ arithmetic_operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | 
 invokation ::= ( ident_or_field | KEYWORD ) OPEN_BRACKET ? expr ? ( COMMA expr ) * CLOSE_BRACKET ?
 invokation_with_brackets ::= ident_or_field OPEN_BRACKET expr ? ( COMMA expr ) * CLOSE_BRACKET
 literal_expr ::= literal
-literal ::= STRING | CHAR | NUMBER | bool_literal
+literal ::= seq_literal | array_literal | STRING | CHAR | NUMBER | bool_literal
+seq_literal ::= T_AT array
+array_literal ::= array
+array ::= OPEN_SBRACKET ( expr ( COMMA expr ) * ) ? CLOSE_SBRACKET
 bool_literal ::= T_TRUE | T_FALSE
 boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE | OP_AND_FULL | OP_XOR_FULL | OP_OR_FULL
 | OP_LOGICAL_OR | OP_LOGICAL_AND
