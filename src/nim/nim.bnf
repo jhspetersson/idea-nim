@@ -66,7 +66,7 @@ return_ ::= T_RETURN expr ?
 stmt ::= ( ident_or_field OP_ASSIGN expr ) | invokation
 
 expr ::= operator ? expr_ ( operator expr_ ) *
-expr_ ::= invokation | NIL | paren_expr | ident_expr | literal_expr
+expr_ ::= invokation_with_brackets | NIL | paren_expr | ident_expr | literal_expr | invokation
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 operator ::= arithmetic_operator | boolean_operator | CUSTOM_OPERATOR
 arithmetic_operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | OP_AND | OP_XOR | OP_OR | OP_STRINGIFY
