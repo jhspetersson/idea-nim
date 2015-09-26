@@ -34,6 +34,7 @@ public class NimSyntaxHighlighter extends SyntaxHighlighterBase {
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(NimTypes.KEYWORD) ||
+            tokenType.equals(NimTypes.OP_ADDR) ||
             tokenType.equals(NimTypes.T_VAR) ||
             tokenType.equals(NimTypes.T_LET) ||
             tokenType.equals(NimTypes.T_CONST) ||

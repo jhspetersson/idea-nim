@@ -66,7 +66,7 @@ return_ ::= T_RETURN expr ?
 stmt ::= ( ident_or_field OP_ASSIGN expr ) | invokation
 
 expr ::= operator ? expr_ ( operator expr_ ) *
-expr_ ::= invokation_with_brackets | NIL | paren_expr | ident_expr | literal_expr | invokation
+expr_ ::= invokation_with_brackets | NIL | paren_expr | addr_expr | ident_expr | literal_expr | invokation
 paren_expr ::= OPEN_BRACKET expr CLOSE_BRACKET
 operator ::= arithmetic_operator | boolean_operator | CUSTOM_OPERATOR
 arithmetic_operator ::= OP_PLUS | OP_MINUS | OP_MULTIPLY | OP_DIVIDE | OP_MOD | OP_AND | OP_XOR | OP_OR | OP_STRINGIFY
@@ -80,6 +80,8 @@ array ::= OPEN_SBRACKET ( expr ( COMMA expr ) * ) ? CLOSE_SBRACKET
 bool_literal ::= T_TRUE | T_FALSE
 boolean_operator ::= OP_EQ | OP_NE | OP_LT | OP_LE | OP_GT | OP_GE | OP_AND_FULL | OP_XOR_FULL | OP_OR_FULL
 | OP_LOGICAL_OR | OP_LOGICAL_AND
+
+addr_expr ::= OP_ADDR ( ( OPEN_BRACKET ident_expr CLOSE_BRACKET ) | ident_expr )
 
 ident_expr ::= ident_or_field
 

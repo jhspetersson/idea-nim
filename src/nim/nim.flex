@@ -83,6 +83,7 @@ CLOSE_SBRACKET="]"
     "case"                { return NimTypes.T_CASE; }
     "of"                  { return NimTypes.T_OF; }
     "break"               { return NimTypes.T_BREAK; }
+    "addr"                { return NimTypes.OP_ADDR; }
     {T_BLOCK}             { return NimTypes.T_BLOCK; }
     {T_DISCARD}           { return NimTypes.T_DISCARD; }
     {STRING}              { return NimTypes.STRING; }
