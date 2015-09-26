@@ -113,7 +113,7 @@ block_ ::= if_block | for_block | while_block | case_block | block_expr | break_
 | invokation | discard_expr
 block_expr ::= T_BLOCK IDENTIFIER COLON
 break_expr ::= T_BREAK IDENTIFIER ?
-discard_expr ::= T_DISCARD expr
+discard_expr ::= T_DISCARD expr ?
 ident_or_field ::= IDENTIFIER ( T_DOT ( IDENTIFIER | invokation_with_brackets ) ) *
 // ident_or_field ::= IDENTIFIER ( T_DOT ( IDENTIFIER | invokation_with_brackets ) ( T_DOT ( IDENTIFIER | invokation_with_brackets ) ) * ) *
 //ident_or_field ::= IDENTIFIER ( T_DOT expr ) *
